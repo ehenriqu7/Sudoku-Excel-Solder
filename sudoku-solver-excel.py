@@ -7,7 +7,7 @@ algorithm:
 from typing import List
 
 import numpy as np
-import time
+import time, sys
 from os import path
 
 sudoku_size = 9
@@ -155,20 +155,20 @@ def read_sudoku_from_file(my_file):
                 line_list = [x for x in line.split(',')]
                 sudoku_array[ln] = line_list
     except:
-        print("Input file not found")
+        # print("Input file not found")
         return []
     return sudoku_array
 
 
 def write_result_to_file(sudoku, my_file):
-    my_file = '/'.join([path.dirname(__file__), my_file])
-    my_file = path.normpath(my_file)
-    print(my_file)
     try:
         with open(my_file, "w") as f:
             for line in sudoku:
                 l = np.array2string(line, separator=',')
                 f.write(l[1:-1] + "\n")
+            f.write(f"Process time: {round(elapsed, 5)} seconds\n")
+            f.write(f"Nr of Hint calculations = {nr_iter}\n")
+            f.write(f"Nr of Solve iterations = {nr_loops}\n")
         return True
     except:
         return False
@@ -184,10 +184,10 @@ if len(sudoku) != 0:
     solve(sudoku)
     elapsed = time.time() - start_time
 
-    print(f"Process time: {elapsed}")
-    print(f"Nr of hints calculations = {nr_iter}")
-    print(f"Nr of Solve iterations = {nr_loops}")
-
-    print_sudoku(sudoku)
+    # print(f"Process time: {elapsed}")
+    # print(f"Nr of hints calculations = {nr_iter}")
+    # print(f"Nr of Solve iterations = {nr_loops}")
+    #
+    # print_sudoku(sudoku)
 
     write_result_to_file(sudoku, excel_result_file)
