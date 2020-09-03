@@ -27,7 +27,7 @@ def populate_hints_by_box(test):
     :return: np Array with sets of hints for each cell
     """
     # global test
-    hint_by_box = np.full((9, 9), {})
+    hint_by_box = np.full((sudoku_size, sudoku_size), {})
     for row in [0, 3, 6]:  # run through rows
         for col in [0, 3, 6]:
             hint = full_set.difference(set(test[row:row + 3, col:col + 3].flatten()))
@@ -129,7 +129,7 @@ def read_sudoku_from_file(my_file):
     """
     This function will read a Sudoku matrix from an text file, comma separated and convert into a np.Array
     """
-    sudoku_array = np.full((9, 9), 0)
+    sudoku_array = np.full((sudoku_size, sudoku_size), 0)
     try:
         with open(my_file, "r") as f:
             for ln, line in enumerate(f):
@@ -171,7 +171,7 @@ if len(sudoku) != 0:
     solve(sudoku)
     elapsed = time.time() - start_time
 
-    print(f"Process time: {round(elapsed, 5) seconds}")
+    print(f"Process time: {round(elapsed, 5)} seconds")
     print(f"Nr of hints calculations = {nr_iter}")
     print(f"Nr of Solve iterations = {nr_loops}")
 
@@ -179,4 +179,4 @@ if len(sudoku) != 0:
 
     write_result_to_file(sudoku, excel_result_file)
 else:
-    print()
+    print("Error during input file read...")
